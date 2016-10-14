@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <link href="css/newcss.css" rel="stylesheet" type="text/css"/>
+        <script src="script/app.js" type="text/javascript"></script>
+    </head>
+    <body ng-controller="PersonController as personCtrl">
+        <div class="container">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <section ng-controller="PanelController as panel">
+                        <ul class="nav nav-pills">
+                            <li ng-class="{ active: panel.isSelected(1)}"> 
+                                <a href ng-click="panel.selectTab(1)">All persons</a>
+                            </li>
+                            <li ng-class="{ active: panel.isSelected(2)}"> 
+                                <a href ng-click="panel.selectTab(2)">New Person</a>
+                            </li>
+                        </ul>
+                        <div class="panel" ng-show="panel.isSelected(1)">
+                            <h4>Person List</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="person in personCtrl.individuals">
+                                    <tr>
+                                        <td>{{person.name}}</td>
+                                        <td><a href="" ng-click="showme = !showme">{{person.id}}</a></td>
+                                        <td class="wrapper">
+                                            <p ng-show="showme">
+                                                <strong>Id:</strong> {{person.id}}<br>
+                                                <strong>Name:</strong> {{person.name}}<br>
+                                                <strong>Age:</strong> {{person.age}}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel" ng-show="panel.isSelected(2)">
+                            <h4>New Person</h4>
+                            <form name="addForm" ng-controller="AddController as addCtrl" ng-submit="addForm.$valid && addCtrl.addPerson(personCtrl.individuals)" novalidate>
+                                <p><strong>Id:</strong></p>
+                                <fieldset class="form-group">
+                                    <input ng-model="addCtrl.add.id" type="number" class="form-control" required/>
+                                </fieldset>
+                                <p><strong>Name:</strong></p>
+                                <fieldset class="form-group">
+                                    <input ng-model="addCtrl.add.name" type="textarea" class="form-control" required/>
+                                </fieldset>
+                                <p><strong>Age:</strong></p>
+                                <fieldset class="form-group">
+                                    <input ng-model="addCtrl.add.age" type="number" class="form-control" required/>
+                                </fieldset>
+                                <div> addForm is {{addForm.$valid}} </div>
+                                <fieldset class="form-group">
+                                    <input type="submit" class="btn btn-primary pull-left" value="Submit"/>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </section>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
